@@ -23,7 +23,7 @@ from tests.ha_helpers import (
     state_price,
 )
 
-CURRENT_PRICE = "sensor.budget_thuis_dynamic_prices_current_price"
+CURRENT_PRICE = "sensor.budget_thuis_prijzen_current_price"
 
 
 def _coordinator(hass, entry) -> BudgetThuisCoordinator:

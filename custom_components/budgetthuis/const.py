@@ -1,4 +1,4 @@
-"""Constanten voor de integratie Budget Thuis Dynamic Prices."""
+"""Constanten voor de integratie Budget Thuis Prijzen."""
 
 from datetime import timedelta
 

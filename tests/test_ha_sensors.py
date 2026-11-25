@@ -9,12 +9,12 @@ from homeassistant.helpers import entity_registry as er
 from custom_components.budgetthuis.const import DOMAIN
 from tests.ha_helpers import DAY_1, DAY_2, local, move_to
 
-CURRENT_PRICE = "sensor.budget_thuis_dynamic_prices_current_price"
-EXPORT_PRICE = "sensor.budget_thuis_dynamic_prices_current_export_price"
-GAS_PRICE = "sensor.budget_thuis_dynamic_prices_current_gas_price"
-CHEAP_HOUR = "binary_sensor.budget_thuis_dynamic_prices_cheap_hour"
-CHEAPEST_PERIOD = "sensor.budget_thuis_dynamic_prices_cheapest_period_today"
-PRICIEST_PERIOD = "sensor.budget_thuis_dynamic_prices_most_expensive_period_today"
+CURRENT_PRICE = "sensor.budget_thuis_prijzen_current_price"
+EXPORT_PRICE = "sensor.budget_thuis_prijzen_current_export_price"
+GAS_PRICE = "sensor.budget_thuis_prijzen_current_gas_price"
+CHEAP_HOUR = "binary_sensor.budget_thuis_prijzen_cheap_hour"
+CHEAPEST_PERIOD = "sensor.budget_thuis_prijzen_cheapest_period_today"
+PRICIEST_PERIOD = "sensor.budget_thuis_prijzen_most_expensive_period_today"
 
 
 async def test_raw_prices_follow_the_nord_pool_layout(hass, setup_integration) -> None:
@@ -102,9 +102,7 @@ async def test_entity_names_follow_the_home_assistant_language(
         "sensor", DOMAIN, f"{entry.entry_id}_current_price"
     )
     assert entity_id is not None
-    assert (
-        hass.states.get(entity_id).name == "Budget Thuis Dynamic Prices Huidige prijs"
-    )
+    assert hass.states.get(entity_id).name == "Budget Thuis Prijzen Huidige prijs"
 
 
 async def test_hourly_lists_stay_out_of_the_recorder(hass, setup_integration) -> None:

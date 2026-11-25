@@ -1,13 +1,13 @@
 {
   "domain": "budgetthuis",
-  "name": "Budget Thuis Dynamic Prices",
+  "name": "Budget Thuis Prijzen",
   "categories": ["energy.energy_prices"],
-  "codeowners": ["@lvaoliveira"],
+  "codeowners": ["@Sarnog"],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/lvaoliveira/ha-budgetthuis-prices",
+  "documentation": "https://github.com/Sarnog/budget_thuis_prijzen",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/lvaoliveira/ha-budgetthuis-prices/issues",
+  "issue_tracker": "https://github.com/Sarnog/budget_thuis_prijzen/issues",
   "requirements": [],
-  "version": "0.4.0"
+  "version": "0.5.0"
 }

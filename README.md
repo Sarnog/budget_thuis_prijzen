@@ -1,8 +1,10 @@
-# Budget Thuis Dynamic Prices
+# Budget Thuis Prijzen
 
-[![HACS Default](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://hacs.xyz/)
-[![Release](https://img.shields.io/github/v/release/lvaoliveira/ha-budgetthuis-prices)](https://github.com/lvaoliveira/ha-budgetthuis-prices/releases)
-[![Tests](https://github.com/lvaoliveira/ha-budgetthuis-prices/actions/workflows/tests.yml/badge.svg)](https://github.com/lvaoliveira/ha-budgetthuis-prices/actions/workflows/tests.yml)
+[![HACS Custom](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://hacs.xyz/)
+[![Release](https://img.shields.io/github/v/release/Sarnog/budget_thuis_prijzen)](https://github.com/Sarnog/budget_thuis_prijzen/releases)
+[![Tests](https://github.com/Sarnog/budget_thuis_prijzen/actions/workflows/tests.yml/badge.svg)](https://github.com/Sarnog/budget_thuis_prijzen/actions/workflows/tests.yml)
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub-EA4AAA.svg?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/Sarnog)
+[![Ko-fi](https://img.shields.io/badge/Support-Ko--fi-FF5E5B.svg?logo=ko-fi&logoColor=white)](https://ko-fi.com/sarnog)
 
 **[English](#english)** · **[Nederlands](#nederlands)**
 
@@ -18,8 +20,8 @@ The integration reads Budget Thuis's public [tariff page](https://www.budgetthui
 
 **Via HACS**
 
-1. Open HACS and search for **Budget Thuis Dynamic Prices**.
-2. Download it and restart Home Assistant.
+1. Open HACS, go to the menu (⋮) → **Custom repositories**, and add `https://github.com/Sarnog/budget_thuis_prijzen` with the type **Integration**.
+2. Search for **Budget Thuis Prijzen**, download it and restart Home Assistant.
 
 **Manually**
 
@@ -31,7 +33,7 @@ Go to **Settings → Devices & services → Add integration** and search for **B
 
 ### Configuration
 
-Go to **Settings → Devices & services → Budget Thuis Dynamic Prices → Configure**.
+Go to **Settings → Devices & services → Budget Thuis Prijzen → Configure**.
 
 | Option | Meaning | Default |
 |---|---|---|
@@ -101,6 +103,10 @@ The same checks run in CI, and test coverage must stay at 100%, branches include
 
 Everything from `parser.py` to `stats.py` is independent of Home Assistant and tested with plain pytest. The rest is tested against a real Home Assistant test instance.
 
+### Support
+
+Do you find this integration useful? You can support its development via [GitHub Sponsors](https://github.com/sponsors/Sarnog) or [Ko-fi](https://ko-fi.com/sarnog). Bugs and ideas are welcome in the [issues](https://github.com/Sarnog/budget_thuis_prijzen/issues).
+
 This integration is not affiliated with or endorsed by Budget Thuis.
 
 ---
@@ -115,8 +121,8 @@ De integratie leest de openbare [tarievenpagina](https://www.budgetthuis.nl/ener
 
 **Via HACS**
 
-1. Open HACS en zoek **Budget Thuis Dynamic Prices**.
-2. Download hem en herstart Home Assistant.
+1. Open HACS, ga naar het menu (⋮) → **Aangepaste repositories** en voeg `https://github.com/Sarnog/budget_thuis_prijzen` toe met het type **Integratie**.
+2. Zoek **Budget Thuis Prijzen**, download hem en herstart Home Assistant.
 
 **Handmatig**
 
@@ -128,7 +134,7 @@ Ga naar **Instellingen → Apparaten & diensten → Integratie toevoegen** en zo
 
 ### Instellen
 
-Ga naar **Instellingen → Apparaten & diensten → Budget Thuis Dynamic Prices → Configureren**.
+Ga naar **Instellingen → Apparaten & diensten → Budget Thuis Prijzen → Configureren**.
 
 | Instelling | Betekenis | Beginwaarde |
 |---|---|---|
@@ -197,5 +203,9 @@ Dezelfde controles draaien in CI, en de testdekking moet 100% blijven, vertakkin
 | `diagnostics.py` | Gegevens voor **Diagnostiek downloaden** |
 
 Alles van `parser.py` tot en met `stats.py` is los van Home Assistant en wordt met gewone pytest getest. De rest wordt getest tegen een echte Home Assistant-testinstantie.
+
+### Steunen
+
+Vind je deze integratie handig? Je kunt de ontwikkeling steunen via [GitHub Sponsors](https://github.com/sponsors/Sarnog) of [Ko-fi](https://ko-fi.com/sarnog). Fouten en ideeën zijn welkom in de [issues](https://github.com/Sarnog/budget_thuis_prijzen/issues).
 
 Deze integratie is niet verbonden aan of goedgekeurd door Budget Thuis.

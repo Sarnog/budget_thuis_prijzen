@@ -1,4 +1,4 @@
-"""Sensor-platform voor Budget Thuis Dynamic Prices."""
+"""Sensor-platform voor Budget Thuis Prijzen."""
 
 from __future__ import annotations
 

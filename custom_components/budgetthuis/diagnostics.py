@@ -1,4 +1,4 @@
-"""Diagnostische gegevens voor Budget Thuis Dynamic Prices.
+"""Diagnostische gegevens voor Budget Thuis Prijzen.
 
 Via Instellingen → Apparaten & diensten → Budget Thuis → Diagnostiek downloaden
 krijg je een overzicht om bij een probleemmelding te voegen. Er zit geen

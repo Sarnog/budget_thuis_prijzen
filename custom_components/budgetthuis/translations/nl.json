@@ -2,12 +2,12 @@
   "config": {
     "step": {
       "user": {
-        "title": "Budget Thuis Dynamic Prices",
+        "title": "Budget Thuis Prijzen",
         "description": "Voeg de sensoren met dynamische stroomprijzen van Budget Thuis toe. De integratie leest de openbare tarievenpagina en heeft geen account of API-sleutel nodig. Eén instantie per Home Assistant is genoeg."
       }
     },
     "abort": {
-      "already_configured": "Budget Thuis Dynamic Prices is al ingesteld."
+      "already_configured": "Budget Thuis Prijzen is al ingesteld."
     }
   },
   "options": {

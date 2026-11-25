@@ -1,4 +1,4 @@
-"""De integratie Budget Thuis Dynamic Prices."""
+"""De integratie Budget Thuis Prijzen."""
 
 from __future__ import annotations
 
