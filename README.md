@@ -3,8 +3,6 @@
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://hacs.xyz/)
 [![Release](https://img.shields.io/github/v/release/Sarnog/budget_thuis_prijzen)](https://github.com/Sarnog/budget_thuis_prijzen/releases)
 [![Tests](https://github.com/Sarnog/budget_thuis_prijzen/actions/workflows/tests.yml/badge.svg)](https://github.com/Sarnog/budget_thuis_prijzen/actions/workflows/tests.yml)
-[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub-EA4AAA.svg?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/Sarnog)
-[![Ko-fi](https://img.shields.io/badge/Support-Ko--fi-FF5E5B.svg?logo=ko-fi&logoColor=white)](https://ko-fi.com/sarnog)
 
 **[English](#english)** · **[Nederlands](#nederlands)**
 
@@ -15,6 +13,12 @@
 A Home Assistant integration that brings the dynamic electricity and gas prices of [Budget Thuis](https://www.budgetthuis.nl/) into Home Assistant, so you can automate around cheap and expensive hours: charge a home battery or an EV, or run appliances when power is cheapest.
 
 The integration reads Budget Thuis's public [tariff page](https://www.budgetthuis.nl/energie/klantenservice/actuele-dynamische-tarieven). No account or API key is needed. It calculates the price for *your* contract itself: the hourly market price (*beursprijs*) and energy tax (*energiebelasting*) from the page, plus VAT and your own purchasing fee (*inkoopvergoeding*). The all-in price shown on the website is not used, because it does not include your personal purchasing fee.
+
+<!-- Ko-fi badge via shields.io, no external tracking -->
+[![Buy me a coffee on Ko-fi](https://img.shields.io/badge/Ko--fi-Buy%20me%20a%20coffee-FF5E5B?style=for-the-badge&logo=kofi&logoColor=white)](https://ko-fi.com/sarnog)
+
+<!-- GitHub Sponsors badge, shows the sponsor count live -->
+[![Sponsor via GitHub](https://img.shields.io/github/sponsors/sarnog?style=for-the-badge&logo=github&label=Sponsors&color=EA4AAA)](https://github.com/sponsors/sarnog)
 
 ### Installation
 
@@ -103,9 +107,17 @@ The same checks run in CI, and test coverage must stay at 100%, branches include
 
 Everything from `parser.py` to `stats.py` is independent of Home Assistant and tested with plain pytest. The rest is tested against a real Home Assistant test instance.
 
-### Support
+### Support this project ☕
 
-Do you find this integration useful? You can support its development via [GitHub Sponsors](https://github.com/sponsors/Sarnog) or [Ko-fi](https://ko-fi.com/sarnog). Bugs and ideas are welcome in the [issues](https://github.com/Sarnog/budget_thuis_prijzen/issues).
+If you find this integration useful and appreciate my work, please consider making a donation. Thanks in advance!
+
+<!-- Ko-fi badge via shields.io, no external tracking -->
+[![Buy me a coffee on Ko-fi](https://img.shields.io/badge/Ko--fi-Buy%20me%20a%20coffee-FF5E5B?style=for-the-badge&logo=kofi&logoColor=white)](https://ko-fi.com/sarnog)
+
+<!-- GitHub Sponsors badge, shows the sponsor count live -->
+[![Sponsor via GitHub](https://img.shields.io/github/sponsors/sarnog?style=for-the-badge&logo=github&label=Sponsors&color=EA4AAA)](https://github.com/sponsors/sarnog)
+
+Bugs and ideas are welcome in the [issues](https://github.com/Sarnog/budget_thuis_prijzen/issues).
 
 This integration is not affiliated with or endorsed by Budget Thuis.
 
@@ -116,6 +128,12 @@ This integration is not affiliated with or endorsed by Budget Thuis.
 Een Home Assistant-integratie die de dynamische stroom- en gasprijzen van [Budget Thuis](https://www.budgetthuis.nl/) in Home Assistant zet. Zo kun je automatiseren rond goedkope en dure uren: een thuisbatterij of je auto laden, of apparaten aanzetten als stroom het goedkoopst is.
 
 De integratie leest de openbare [tarievenpagina](https://www.budgetthuis.nl/energie/klantenservice/actuele-dynamische-tarieven) van Budget Thuis. Je hebt geen account of API-sleutel nodig. De prijs voor *jouw* contract rekent de integratie zelf uit: de beursprijs en energiebelasting per uur van de pagina, plus BTW en jouw eigen inkoopvergoeding. De all-in prijs op de website wordt niet gebruikt, want daar zit jouw persoonlijke inkoopvergoeding niet in.
+
+<!-- Ko-fi badge via shields.io, geen externe tracking -->
+[![Koop me een koffie op Ko-fi](https://img.shields.io/badge/Ko--fi-Koop%20me%20een%20koffie-FF5E5B?style=for-the-badge&logo=kofi&logoColor=white)](https://ko-fi.com/sarnog)
+
+<!-- GitHub Sponsors badge, toont live het aantal sponsors -->
+[![Sponsor via GitHub](https://img.shields.io/github/sponsors/sarnog?style=for-the-badge&logo=github&label=Sponsors&color=EA4AAA)](https://github.com/sponsors/sarnog)
 
 ### Installatie
 
@@ -204,8 +222,16 @@ Dezelfde controles draaien in CI, en de testdekking moet 100% blijven, vertakkin
 
 Alles van `parser.py` tot en met `stats.py` is los van Home Assistant en wordt met gewone pytest getest. De rest wordt getest tegen een echte Home Assistant-testinstantie.
 
-### Steunen
+### Steun dit project ☕
 
-Vind je deze integratie handig? Je kunt de ontwikkeling steunen via [GitHub Sponsors](https://github.com/sponsors/Sarnog) of [Ko-fi](https://ko-fi.com/sarnog). Fouten en ideeën zijn welkom in de [issues](https://github.com/Sarnog/budget_thuis_prijzen/issues).
+Als je deze integratie nuttig vindt en mijn werk waardeert, overweeg dan om een bedrag te doneren. Alvast bedankt!
+
+<!-- Ko-fi badge via shields.io, geen externe tracking -->
+[![Koop me een koffie op Ko-fi](https://img.shields.io/badge/Ko--fi-Koop%20me%20een%20koffie-FF5E5B?style=for-the-badge&logo=kofi&logoColor=white)](https://ko-fi.com/sarnog)
+
+<!-- GitHub Sponsors badge, toont live het aantal sponsors -->
+[![Sponsor via GitHub](https://img.shields.io/github/sponsors/sarnog?style=for-the-badge&logo=github&label=Sponsors&color=EA4AAA)](https://github.com/sponsors/sarnog)
+
+Fouten en ideeën zijn welkom in de [issues](https://github.com/Sarnog/budget_thuis_prijzen/issues).
 
 Deze integratie is niet verbonden aan of goedgekeurd door Budget Thuis.
