@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntryState
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
@@ -24,11 +25,18 @@ async def _old_install(hass, state=ConfigEntryState.NOT_LOADED) -> MockConfigEnt
     )
     old.add_to_hass(hass)
     old.mock_state(hass, state)
+    device = dr.async_get(hass).async_get_or_create(
+        config_entry_id=old.entry_id,
+        identifiers={(OLD_DOMAIN, old.entry_id)},
+        name="Budget Thuis Dynamic Prices",
+    )
+    dr.async_get(hass).async_update_device(device.id, area_id="meterkast")
     er.async_get(hass).async_get_or_create(
         "sensor",
         OLD_DOMAIN,
         f"{old.entry_id}_current_price",
         config_entry=old,
+        device_id=device.id,
         suggested_object_id="budget_thuis_dynamic_prices_current_price",
         original_icon="mdi:old",
     )
@@ -70,12 +78,58 @@ async def test_old_install_is_taken_over(
     # Er komt geen tweede, nieuwe huidige-prijssensor bij.
     assert hass.states.get("sensor.budget_thuis_prijzen_current_price") is None
 
+    # Het apparaat verhuist mee, met zijn ruimte.
+    device = dr.async_get(hass).async_get(reg_entry.device_id)
+    assert device.identifiers == {(DOMAIN, entry.entry_id)}
+    assert device.config_entries == {entry.entry_id}
+    assert device.area_id == "meterkast"
+
+
+async def test_fresh_050_install_makes_way(
+    hass, enable_custom_integrations, aioclient_mock, freezer
+) -> None:
+    """Wat een eerdere 0.5.0-installatie vers aanmaakte, maakt plaats voor het oude."""
+    old = await _old_install(hass)
+    entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
+    entry.add_to_hass(hass)
+    fresh_device = dr.async_get(hass).async_get_or_create(
+        config_entry_id=entry.entry_id, identifiers={(DOMAIN, entry.entry_id)}
+    )
+    er.async_get(hass).async_get_or_create(
+        "sensor",
+        DOMAIN,
+        f"{entry.entry_id}_current_price",
+        config_entry=entry,
+        device_id=fresh_device.id,
+        suggested_object_id="budget_thuis_prijzen_current_price",
+    )
+
+    await hass.config.async_set_time_zone("Europe/Amsterdam")
+    freezer.move_to(local(DAY_1, 14, 23))
+    aioclient_mock.get(TARIFF_URL, text=page([DAY_1, DAY_2]))
+    await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+
+    entities = er.async_get(hass)
+    assert entities.async_get("sensor.budget_thuis_prijzen_current_price") is None
+    assert entities.async_get(OLD_ENTITY_ID).unique_id == (
+        f"{entry.entry_id}_current_price"
+    )
+    assert dr.async_get(hass).async_get(fresh_device.id) is None
+    assert hass.config_entries.async_get_entry(old.entry_id) is None
+
 
 async def test_own_options_are_kept(
     hass, enable_custom_integrations, aioclient_mock, freezer
 ) -> None:
     """Heeft de nieuwe entry al instellingen, dan blijven die staan."""
-    await _old_install(hass)
+    old = await _old_install(hass)
+    # Ook zonder oud apparaat (bijv. zelf verwijderd) lukt de overstap.
+    er.async_get(hass).async_update_entity(OLD_ENTITY_ID, device_id=None)
+    devices = dr.async_get(hass)
+    devices.async_remove_device(
+        devices.async_get_device(identifiers={(OLD_DOMAIN, old.entry_id)}).id
+    )
     await hass.config.async_set_time_zone("Europe/Amsterdam")
     freezer.move_to(local(DAY_1, 14, 23))
     aioclient_mock.get(TARIFF_URL, text=page([DAY_1, DAY_2]))
