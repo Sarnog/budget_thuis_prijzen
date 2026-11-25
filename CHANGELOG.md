@@ -1,5 +1,11 @@
 # Wijzigingen
 
+## 0.5.2
+
+### Verbeterd
+- De overstap van `budgetthuis` neemt nu ook het apparaat mee, met zijn ruimte, labels en eigen naam. Eerder kwam er een nieuw apparaat zonder ruimte.
+- Had je 0.5.0 of 0.5.1 al toegevoegd voordat de oude integratie weg was? Dan maken de vers aangemaakte entiteiten en het nieuwe apparaat plaats voor de oude, zodat er geen dubbelen (`..._2`) ontstaan.
+
 ## 0.5.1
 
 ### Toegevoegd
