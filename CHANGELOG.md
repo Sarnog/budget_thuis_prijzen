@@ -1,5 +1,13 @@
 # Wijzigingen
 
+## 0.5.0
+
+### Gewijzigd
+- De integratie heet nu **Budget Thuis Prijzen** en gaat zelfstandig verder, los van het oorspronkelijke project. Codeowner, documentatie en issue tracker wijzen naar deze repository.
+- Het apparaat heet nu *Budget Thuis Prijzen*, dus de weergavenamen van de entiteiten veranderen mee (bijv. *Budget Thuis Prijzen Huidige prijs*). Bestaande entity-ID's en unieke ID's blijven gewoon staan, je automatiseringen blijven werken. Alleen bij een nieuwe installatie beginnen de entity-ID's met `budget_thuis_prijzen_` (bijv. `sensor.budget_thuis_prijzen_current_price`). De titel van een bestaande config entry verandert niet vanzelf; die kun je zelf hernoemen.
+- **Let op, nieuw domein:** het domein is nu `budget_thuis_prijzen` (was `budgetthuis`), zodat deze integratie niet botst met het oorspronkelijke project. Home Assistant ziet dit als een nieuwe integratie. Overstappen: verwijder de oude integratie *Budget Thuis* en de map `custom_components/budgetthuis`, installeer deze versie, voeg de integratie opnieuw toe en neem je instellingen over. Wil je je oude entity-ID's terug, hernoem de nieuwe entiteiten dan naar de oude ID's.
+- README: installatie via een aangepaste HACS-repository, plus links naar GitHub Sponsors en Ko-fi.
+
 ## 0.4.0
 
 ### Toegevoegd

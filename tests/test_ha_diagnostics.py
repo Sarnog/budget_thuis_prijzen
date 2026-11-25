@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from custom_components.budgetthuis.diagnostics import (
+from custom_components.budget_thuis_prijzen.diagnostics import (
     async_get_config_entry_diagnostics,
 )
 from tests.ha_helpers import DAY_1, DAY_2, NO_SURCHARGES, local

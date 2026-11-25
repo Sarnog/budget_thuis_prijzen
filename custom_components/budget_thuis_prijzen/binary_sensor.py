@@ -1,4 +1,4 @@
-"""Binary sensor-platform voor Budget Thuis Dynamic Prices."""
+"""Binary sensor-platform voor Budget Thuis Prijzen."""
 
 from __future__ import annotations
 

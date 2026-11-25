@@ -6,7 +6,7 @@ from homeassistant import config_entries
 from homeassistant.data_entry_flow import FlowResultType
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from custom_components.budgetthuis.const import DOMAIN, TARIFF_URL
+from custom_components.budget_thuis_prijzen.const import DOMAIN, TARIFF_URL
 from tests.ha_helpers import DAY_1, DAY_2, local, page, state_price
 
 
@@ -31,7 +31,7 @@ async def test_user_confirms_and_gets_an_entry(
     )
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == "Budget Thuis Dynamic Prices"
+    assert result["title"] == "Budget Thuis Prijzen"
 
 
 async def test_second_instance_is_aborted(
@@ -51,7 +51,7 @@ async def test_options_change_the_contract_price(
 ) -> None:
     """Nieuwe contractopties laden de entry opnieuw en rekenen direct door."""
     entry = await setup_integration(local(DAY_1, 14, 23))
-    current = "sensor.budget_thuis_dynamic_prices_current_price"
+    current = "sensor.budget_thuis_prijzen_current_price"
     assert state_price(hass, current) == 0.24  # (0,14 + 0,1), 0% BTW, geen inkoop
 
     result = await hass.config_entries.options.async_init(entry.entry_id)

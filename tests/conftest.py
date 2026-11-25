@@ -7,7 +7,7 @@ from datetime import datetime
 import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from custom_components.budgetthuis.const import DOMAIN, TARIFF_URL
+from custom_components.budget_thuis_prijzen.const import DOMAIN, TARIFF_URL
 from tests.ha_helpers import DAY_1, DAY_2, NO_SURCHARGES, page
 
 

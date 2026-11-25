@@ -1,4 +1,4 @@
-"""Gedeelde basis voor alle entiteiten van Budget Thuis Dynamic Prices."""
+"""Gedeelde basis voor alle entiteiten van Budget Thuis Prijzen."""
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ class BudgetThuisEntity(CoordinatorEntity[BudgetThuisCoordinator]):
         self._attr_unique_id = f"{entry_id}_{self._attr_translation_key}"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry_id)},
-            name="Budget Thuis Dynamic Prices",
+            name="Budget Thuis Prijzen",
             manufacturer="Budget Thuis",
             entry_type=DeviceEntryType.SERVICE,
         )

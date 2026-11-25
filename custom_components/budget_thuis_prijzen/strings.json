@@ -2,12 +2,12 @@
   "config": {
     "step": {
       "user": {
-        "title": "Budget Thuis Dynamic Prices",
+        "title": "Budget Thuis Prijzen",
         "description": "Add Budget Thuis dynamic electricity price sensors. This reads the public tariff page and requires no account or API key. Only one instance is needed per Home Assistant install."
       }
     },
     "abort": {
-      "already_configured": "Budget Thuis Dynamic Prices is already set up."
+      "already_configured": "Budget Thuis Prijzen is already set up."
     }
   },
   "options": {

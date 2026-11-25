@@ -1,4 +1,4 @@
-"""Config- en opties-flow voor Budget Thuis Dynamic Prices."""
+"""Config- en opties-flow voor Budget Thuis Prijzen."""
 
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ from .const import (
 
 
 class BudgetThuisConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Config flow voor Budget Thuis Dynamic Prices.
+    """Config flow voor Budget Thuis Prijzen.
 
     Er is geen account om in te loggen, want de tarievenpagina is openbaar. Het
     is dus één bevestigingsstap, die ook afdwingt dat er maar één entry per
@@ -57,7 +57,7 @@ class BudgetThuisConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self._abort_if_unique_id_configured()
 
         if user_input is not None:
-            return self.async_create_entry(title="Budget Thuis Dynamic Prices", data={})
+            return self.async_create_entry(title="Budget Thuis Prijzen", data={})
 
         return self.async_show_form(step_id="user")
 

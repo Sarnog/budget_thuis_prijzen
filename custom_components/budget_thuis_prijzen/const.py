@@ -1,8 +1,8 @@
-"""Constanten voor de integratie Budget Thuis Dynamic Prices."""
+"""Constanten voor de integratie Budget Thuis Prijzen."""
 
 from datetime import timedelta
 
-DOMAIN = "budgetthuis"
+DOMAIN = "budget_thuis_prijzen"
 
 TARIFF_URL = (
     "https://www.budgetthuis.nl/energie/klantenservice/actuele-dynamische-tarieven"

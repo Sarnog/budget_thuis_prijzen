@@ -9,7 +9,7 @@ from zoneinfo import ZoneInfo
 import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from custom_components.budgetthuis.const import DOMAIN, TARIFF_URL
+from custom_components.budget_thuis_prijzen.const import DOMAIN, TARIFF_URL
 from tests.ha_helpers import (
     DAY_1,
     DAY_2,
@@ -29,16 +29,16 @@ async def test_current_price_switches_on_the_hour_not_on_the_poll(
     """Gemelde bug: gestart om 14:23, de prijs sprong pas om 15:23 door."""
     await setup_integration(local(DAY_1, 14, 23))
     assert state_price(
-        hass, "sensor.budget_thuis_dynamic_prices_current_price"
+        hass, "sensor.budget_thuis_prijzen_current_price"
     ) == pytest.approx(commodity(DAY_1, 14) + ENERGY_TAX)
 
     await move_to(hass, freezer, local(DAY_1, 15, 0, 1))
 
     assert state_price(
-        hass, "sensor.budget_thuis_dynamic_prices_current_price"
+        hass, "sensor.budget_thuis_prijzen_current_price"
     ) == pytest.approx(commodity(DAY_1, 15) + ENERGY_TAX)
     assert state_price(
-        hass, "sensor.budget_thuis_dynamic_prices_next_hour_price"
+        hass, "sensor.budget_thuis_prijzen_next_hour_price"
     ) == pytest.approx(commodity(DAY_1, 16) + ENERGY_TAX)
 
 
@@ -51,11 +51,11 @@ async def test_current_price_rolls_over_at_midnight(
     await move_to(hass, freezer, local(DAY_2, 0, 0, 1))
 
     assert state_price(
-        hass, "sensor.budget_thuis_dynamic_prices_current_price"
+        hass, "sensor.budget_thuis_prijzen_current_price"
     ) == pytest.approx(commodity(DAY_2, 0) + ENERGY_TAX)
     # De statistieken van vandaag volgen de nieuwe dag ook.
     assert state_price(
-        hass, "sensor.budget_thuis_dynamic_prices_lowest_price_today"
+        hass, "sensor.budget_thuis_prijzen_lowest_price_today"
     ) == pytest.approx(commodity(DAY_2, 0) + ENERGY_TAX)
 
 
@@ -63,7 +63,7 @@ async def test_gas_price_switches_at_six_with_its_own_inkoopvergoeding(
     hass, setup_integration, freezer
 ) -> None:
     await setup_integration(local(DAY_1, 5, 37))
-    entity_id = "sensor.budget_thuis_dynamic_prices_current_gas_price"
+    entity_id = "sensor.budget_thuis_prijzen_current_gas_price"
     # 00:00-06:00 heeft nog de prijs van de vorige gasdag.
     assert state_price(hass, entity_id) == pytest.approx(
         0.9 + 0.6 + GAS_INKOOPVERGOEDING
@@ -92,17 +92,17 @@ async def test_clock_survives_an_options_reload(
     await move_to(hass, freezer, local(DAY_1, 6, 0, 1))
 
     assert state_price(
-        hass, "sensor.budget_thuis_dynamic_prices_current_gas_price"
+        hass, "sensor.budget_thuis_prijzen_current_gas_price"
     ) == pytest.approx(1.0 + 0.6 + 0.2)
     assert state_price(
-        hass, "sensor.budget_thuis_dynamic_prices_current_price"
+        hass, "sensor.budget_thuis_prijzen_current_price"
     ) == pytest.approx(commodity(DAY_1, 6) + ENERGY_TAX)
 
     # Na het ontladen mag een latere tik de (verdwenen) coordinator niet meer raken.
     assert await hass.config_entries.async_unload(entry.entry_id)
     await move_to(hass, freezer, local(DAY_1, 7, 0, 1))
     assert (
-        hass.states.get("sensor.budget_thuis_dynamic_prices_current_price").state
+        hass.states.get("sensor.budget_thuis_prijzen_current_price").state
         == "unavailable"
     )
 
@@ -139,8 +139,8 @@ async def test_autumn_changeover_shows_each_0200_hour(
     assert await hass.config_entries.async_setup(entry.entry_id)
     await hass.async_block_till_done()
 
-    current = "sensor.budget_thuis_dynamic_prices_current_price"
-    next_hour = "sensor.budget_thuis_dynamic_prices_next_hour_price"
+    current = "sensor.budget_thuis_prijzen_current_price"
+    next_hour = "sensor.budget_thuis_prijzen_next_hour_price"
     assert state_price(hass, current) == 2.0  # 02:30 zomertijd
     assert state_price(hass, next_hour) == 3.0  # 02:30 wintertijd, een echt uur later
 
