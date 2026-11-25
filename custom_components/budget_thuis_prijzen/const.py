@@ -3,6 +3,8 @@
 from datetime import timedelta
 
 DOMAIN = "budget_thuis_prijzen"
+# Het domein tot en met versie 0.4.0; zie migration.py voor de overstap.
+OLD_DOMAIN = "budgetthuis"
 
 TARIFF_URL = (
     "https://www.budgetthuis.nl/energie/klantenservice/actuele-dynamische-tarieven"

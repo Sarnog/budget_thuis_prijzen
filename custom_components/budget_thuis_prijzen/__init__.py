@@ -6,12 +6,17 @@ from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
 from .coordinator import BudgetThuisConfigEntry, BudgetThuisCoordinator
+from .migration import async_migrate_old_domain
 
 PLATFORMS = [Platform.SENSOR, Platform.BINARY_SENSOR]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: BudgetThuisConfigEntry) -> bool:
     """Zet de integratie op vanuit een config entry."""
+    # Eerst een eventuele installatie onder het oude domein overnemen, zodat de
+    # coordinator meteen met de overgenomen contractinstellingen rekent.
+    await async_migrate_old_domain(hass, entry)
+
     coordinator = BudgetThuisCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
 
