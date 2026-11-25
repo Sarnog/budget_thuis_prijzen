@@ -6,7 +6,7 @@ from datetime import timedelta
 
 from homeassistant.helpers import entity_registry as er
 
-from custom_components.budgetthuis.const import DOMAIN
+from custom_components.budget_thuis_prijzen.const import DOMAIN
 from tests.ha_helpers import DAY_1, DAY_2, local, move_to
 
 CURRENT_PRICE = "sensor.budget_thuis_prijzen_current_price"

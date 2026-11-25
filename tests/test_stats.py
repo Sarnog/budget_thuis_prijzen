@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 
-from custom_components.budgetthuis.stats import (
+from custom_components.budget_thuis_prijzen.stats import (
     average,
     cheapest_period,
     highest,

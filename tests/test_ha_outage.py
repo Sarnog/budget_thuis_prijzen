@@ -6,12 +6,12 @@ from datetime import timedelta
 
 import pytest
 
-from custom_components.budgetthuis.const import (
+from custom_components.budget_thuis_prijzen.const import (
     RETRY_INTERVAL,
     TARIFF_URL,
     UPDATE_INTERVAL,
 )
-from custom_components.budgetthuis.coordinator import BudgetThuisCoordinator
+from custom_components.budget_thuis_prijzen.coordinator import BudgetThuisCoordinator
 from tests.ha_helpers import (
     DAY_1,
     DAY_2,

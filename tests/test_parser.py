@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from custom_components.budgetthuis.parser import (
+from custom_components.budget_thuis_prijzen.parser import (
     GAS,
     TariffParseError,
     parse_tariff_days,

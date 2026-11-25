@@ -2,7 +2,7 @@
 
 from datetime import timedelta
 
-DOMAIN = "budgetthuis"
+DOMAIN = "budget_thuis_prijzen"
 
 TARIFF_URL = (
     "https://www.budgetthuis.nl/energie/klantenservice/actuele-dynamische-tarieven"

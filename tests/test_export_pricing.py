@@ -6,13 +6,13 @@ from datetime import date, datetime, time, timedelta
 
 import pytest
 
-from custom_components.budgetthuis.export_pricing import (
+from custom_components.budget_thuis_prijzen.export_pricing import (
     ExportConfig,
     Location,
     bonus_window,
     calculate_export_price,
 )
-from custom_components.budgetthuis.parser import AMSTERDAM, HourPrice
+from custom_components.budget_thuis_prijzen.parser import AMSTERDAM, HourPrice
 
 DE_BILT = Location(latitude=52.1, longitude=5.18)
 CONTRACT_PRICE = 0.42

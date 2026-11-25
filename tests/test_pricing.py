@@ -4,8 +4,11 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from custom_components.budgetthuis.parser import HourPrice
-from custom_components.budgetthuis.pricing import ContractConfig, calculate_price
+from custom_components.budget_thuis_prijzen.parser import HourPrice
+from custom_components.budget_thuis_prijzen.pricing import (
+    ContractConfig,
+    calculate_price,
+)
 
 
 def _hour(

@@ -29,7 +29,7 @@ The integration reads Budget Thuis's public [tariff page](https://www.budgetthui
 
 **Manually**
 
-Copy the `custom_components/budgetthuis` folder into the `custom_components` folder of your Home Assistant configuration and restart Home Assistant.
+Copy the `custom_components/budget_thuis_prijzen` folder into the `custom_components` folder of your Home Assistant configuration and restart Home Assistant.
 
 **Add the integration**
 
@@ -144,7 +144,7 @@ De integratie leest de openbare [tarievenpagina](https://www.budgetthuis.nl/ener
 
 **Handmatig**
 
-Kopieer de map `custom_components/budgetthuis` naar de map `custom_components` van je Home Assistant-configuratie en herstart Home Assistant.
+Kopieer de map `custom_components/budget_thuis_prijzen` naar de map `custom_components` van je Home Assistant-configuratie en herstart Home Assistant.
 
 **Integratie toevoegen**
 

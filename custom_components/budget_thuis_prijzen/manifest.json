@@ -1,5 +1,5 @@
 {
-  "domain": "budgetthuis",
+  "domain": "budget_thuis_prijzen",
   "name": "Budget Thuis Prijzen",
   "categories": ["energy.energy_prices"],
   "codeowners": ["@Sarnog"],
