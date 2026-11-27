@@ -4,7 +4,7 @@
 
 ### Gewijzigd
 - **De overstap van `budgetthuis` gebeurt niet meer vanzelf.** Het domein `budgetthuis` is ook van het oorspronkelijke project, dus een entry daaronder hoeft niet van deze integratie te zijn. Staat er zo'n entry, dan verschijnt er een melding onder *Instellingen > Systeem > Reparaties*. Die toont welke entry, welk apparaat en hoeveel entiteiten overgenomen worden. Pas als je op *Verzenden* klikt, worden instellingen, entiteiten en apparaat overgenomen en de oude entry verwijderd. Negeer je de melding, dan verandert er niets.
-- De integratie wacht niet meer als de oude integratie nog draait; ze start gewoon. Bevestig je de overstap terwijl de oude nog draait, dan krijg je een melding en blijft alles staan.
+- De integratie wacht niet meer als de oude integratie nog draait; ze start gewoon. Bevestig je de overstap terwijl de oude nog draait, dan krijg je een melding en blijft alles staan. Dat geldt ook als *Budget Thuis Prijzen* zelf niet even gestopt kan worden voor de overstap.
 
 ## 0.5.2
 

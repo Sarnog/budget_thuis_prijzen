@@ -51,7 +51,9 @@ class MigrateOldDomainFlow(RepairsFlow):
                 description_placeholders={"old_domain": OLD_DOMAIN},
             )
 
-        await async_migrate_old_domain(self.hass, old, entries[0])
+        if not await async_migrate_old_domain(self.hass, old, entries[0]):
+            # Ontladen van de nieuwe entry mislukte; er is niets gewijzigd.
+            return self.async_abort(reason="unload_failed")
         return self.async_create_entry(data={})
 
 
