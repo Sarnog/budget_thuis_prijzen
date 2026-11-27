@@ -63,5 +63,22 @@
         "name": "Cheap hour"
       }
     }
+  },
+  "issues": {
+    "migrate_old_domain": {
+      "title": "Take over the old {old_domain} installation?",
+      "fix_flow": {
+        "step": {
+          "confirm": {
+            "title": "Take over the old {old_domain} installation",
+            "description": "Home Assistant still has an entry of the integration domain `{old_domain}`. Up to version 0.4.0 that was this integration's domain, but it is also the domain of the original project (lvaoliveira/ha-budgetthuis-prices), so only continue if this entry was created by Budget Thuis Prijzen.\n\nThis will be taken over:\n- Entry: **{entry_title}**\n- Device: **{device_name}** (with its area, labels and name)\n- Entities: **{entity_count}** (entity IDs, names and history are kept)\n- The contract settings, if Budget Thuis Prijzen has none of its own yet\n\nAfterwards the old entry is removed. Remove the folder `custom_components/{old_domain}` and restart Home Assistant first. If this entry is not yours, ignore this repair and nothing will change."
+          }
+        },
+        "abort": {
+          "old_integration_running": "The old integration is still running. Remove the folder custom_components/{old_domain}, restart Home Assistant and try again. Nothing was changed.",
+          "nothing_to_migrate": "There is nothing to take over anymore."
+        }
+      }
+    }
   }
 }

@@ -1,10 +1,15 @@
-"""Home Assistant-tests voor de overstap van het oude domein budgetthuis."""
+"""Home Assistant-tests voor de overstap van het oude domein budgetthuis.
+
+De overstap gebeurt nooit vanzelf: er komt een reparatiemelding, en pas na
+bevestiging in de fix flow wordt de oude entry overgenomen.
+"""
 
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
+from homeassistant.helpers import issue_registry as ir
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.budget_thuis_prijzen.const import (
@@ -12,6 +17,11 @@ from custom_components.budget_thuis_prijzen.const import (
     OLD_DOMAIN,
     TARIFF_URL,
 )
+from custom_components.budget_thuis_prijzen.migration import (
+    ISSUE_ID,
+    async_migrate_old_domain,
+)
+from custom_components.budget_thuis_prijzen.repairs import async_create_fix_flow
 from tests.ha_helpers import DAY_1, DAY_2, NO_SURCHARGES, local, page, state_price
 
 OLD_ENTITY_ID = "sensor.budget_thuis_dynamic_prices_current_price"
@@ -56,13 +66,76 @@ async def _setup_new(hass, aioclient_mock, freezer) -> MockConfigEntry:
     return entry
 
 
-async def test_old_install_is_taken_over(
+async def _confirm(hass, entry: MockConfigEntry | None = None) -> dict:
+    """Doorloop de fix flow zoals de gebruiker dat doet: tonen, dan bevestigen."""
+    flow = await async_create_fix_flow(hass, ISSUE_ID, None)
+    flow.hass = hass
+    flow.issue_id = ISSUE_ID
+    result = await flow.async_step_init()
+    assert result["type"] == "form"
+    assert result["step_id"] == "confirm"
+    result = await flow.async_step_confirm({})
+    await hass.async_block_till_done()
+    return result
+
+
+async def test_nothing_happens_without_confirmation(
     hass, enable_custom_integrations, aioclient_mock, freezer
 ) -> None:
-    """Instellingen en entity-ID's gaan mee; de oude entry verdwijnt."""
+    """Alleen een melding; de oude entry, entiteit en apparaat blijven staan."""
     old = await _old_install(hass)
 
     entry = await _setup_new(hass, aioclient_mock, freezer)
+
+    assert entry.state is ConfigEntryState.LOADED
+    assert entry.options == {}
+    assert hass.config_entries.async_get_entry(old.entry_id) is old
+    reg_entry = er.async_get(hass).async_get(OLD_ENTITY_ID)
+    assert reg_entry.platform == OLD_DOMAIN
+    assert reg_entry.config_entry_id == old.entry_id
+    assert dr.async_get(hass).async_get_device(identifiers={(OLD_DOMAIN, old.entry_id)})
+
+    issue = ir.async_get(hass).async_get_issue(DOMAIN, ISSUE_ID)
+    assert issue is not None
+    assert issue.is_fixable
+    assert issue.translation_placeholders == {
+        "old_domain": OLD_DOMAIN,
+        "entry_title": old.title,
+        "device_name": "Budget Thuis Dynamic Prices",
+        "entity_count": "1",
+    }
+
+
+async def test_no_issue_without_old_install(
+    hass, enable_custom_integrations, aioclient_mock, freezer
+) -> None:
+    """Zonder oude entry geen melding, en een oude melding verdwijnt."""
+    ir.async_create_issue(
+        hass,
+        DOMAIN,
+        ISSUE_ID,
+        is_fixable=True,
+        severity=ir.IssueSeverity.WARNING,
+        translation_key=ISSUE_ID,
+    )
+
+    entry = await _setup_new(hass, aioclient_mock, freezer)
+
+    assert entry.state is ConfigEntryState.LOADED
+    assert ir.async_get(hass).async_get_issue(DOMAIN, ISSUE_ID) is None
+
+
+async def test_old_install_is_taken_over(
+    hass, enable_custom_integrations, aioclient_mock, freezer
+) -> None:
+    """Na bevestiging gaan instellingen en entity-ID's mee; de oude entry verdwijnt."""
+    old = await _old_install(hass)
+    entry = await _setup_new(hass, aioclient_mock, freezer)
+
+    result = await _confirm(hass)
+
+    assert result["type"] == "create_entry"
+    assert ir.async_get(hass).async_get_issue(DOMAIN, ISSUE_ID) is None
 
     assert entry.state is ConfigEntryState.LOADED
     assert entry.options == OLD_OPTIONS
@@ -110,6 +183,8 @@ async def test_fresh_050_install_makes_way(
     await hass.config_entries.async_setup(entry.entry_id)
     await hass.async_block_till_done()
 
+    await _confirm(hass)
+
     entities = er.async_get(hass)
     assert entities.async_get("sensor.budget_thuis_prijzen_current_price") is None
     assert entities.async_get(OLD_ENTITY_ID).unique_id == (
@@ -140,18 +215,69 @@ async def test_own_options_are_kept(
     await hass.config_entries.async_setup(entry.entry_id)
     await hass.async_block_till_done()
 
+    await _confirm(hass)
+
     assert entry.options == NO_SURCHARGES
     assert state_price(hass, OLD_ENTITY_ID) == 0.24
 
 
-async def test_waits_while_old_integration_runs(
+async def test_refuses_while_old_integration_runs(
     hass, enable_custom_integrations, aioclient_mock, freezer
 ) -> None:
-    """Draait de oude integratie nog, dan wacht de setup en blijft alles staan."""
+    """Draait de oude integratie nog, dan stopt de bevestiging en blijft alles staan."""
     old = await _old_install(hass, ConfigEntryState.LOADED)
-
     entry = await _setup_new(hass, aioclient_mock, freezer)
+    assert entry.state is ConfigEntryState.LOADED
 
-    assert entry.state is ConfigEntryState.SETUP_RETRY
+    result = await _confirm(hass)
+
+    assert result["type"] == "abort"
+    assert result["reason"] == "old_integration_running"
     assert hass.config_entries.async_get_entry(old.entry_id) is old
     assert er.async_get(hass).async_get(OLD_ENTITY_ID).platform == OLD_DOMAIN
+    assert ir.async_get(hass).async_get_issue(DOMAIN, ISSUE_ID) is not None
+
+
+async def test_aborts_when_old_entry_is_gone(
+    hass, enable_custom_integrations, aioclient_mock, freezer
+) -> None:
+    """Is de oude entry inmiddels weg, dan valt er niets over te nemen."""
+    old = await _old_install(hass)
+    entry = await _setup_new(hass, aioclient_mock, freezer)
+    await hass.config_entries.async_remove(old.entry_id)
+
+    result = await _confirm(hass)
+
+    assert result["type"] == "abort"
+    assert result["reason"] == "nothing_to_migrate"
+    assert entry.state is ConfigEntryState.LOADED
+
+
+async def test_removing_entry_clears_issue(
+    hass, enable_custom_integrations, aioclient_mock, freezer
+) -> None:
+    """Wie de integratie verwijdert, houdt geen overstapmelding over."""
+    await _old_install(hass)
+    entry = await _setup_new(hass, aioclient_mock, freezer)
+
+    await hass.config_entries.async_remove(entry.entry_id)
+
+    assert ir.async_get(hass).async_get_issue(DOMAIN, ISSUE_ID) is None
+
+
+async def test_migrate_with_unloaded_new_entry(
+    hass, enable_custom_integrations
+) -> None:
+    """Een nog niet opgezette nieuwe entry blijft na de overstap gewoon uit."""
+    old = await _old_install(hass)
+    entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
+    entry.add_to_hass(hass)
+
+    await async_migrate_old_domain(hass, old, entry)
+
+    assert entry.state is ConfigEntryState.NOT_LOADED
+    assert entry.options == OLD_OPTIONS
+    assert er.async_get(hass).async_get(OLD_ENTITY_ID).platform == DOMAIN
+    device = dr.async_get(hass).async_get_device(identifiers={(DOMAIN, entry.entry_id)})
+    assert device.area_id == "meterkast"
+    assert hass.config_entries.async_get_entry(old.entry_id) is None

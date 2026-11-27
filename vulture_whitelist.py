@@ -9,6 +9,7 @@ echt dode code hoort hier niet in, die haal je weg.
 # Entry points van de integratie
 async_setup_entry
 async_unload_entry
+async_remove_entry
 
 # Config- en opties-flow
 BudgetThuisConfigFlow
@@ -29,3 +30,7 @@ _unrecorded_attributes
 
 # Diagnostiek
 async_get_config_entry_diagnostics
+
+# Reparaties (overstap van het oude domein)
+async_create_fix_flow
+async_step_confirm
