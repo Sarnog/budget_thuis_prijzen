@@ -303,3 +303,17 @@ async def test_aborts_when_unload_fails(
     assert hass.config_entries.async_get_entry(old.entry_id) is old
     assert er.async_get(hass).async_get(OLD_ENTITY_ID).platform == OLD_DOMAIN
     assert ir.async_get(hass).async_get_issue(DOMAIN, ISSUE_ID) is not None
+
+
+async def test_aborts_after_failed_unload(hass, enable_custom_integrations) -> None:
+    """Na een eerder mislukte ontlading (FAILED_UNLOAD) verandert er niets."""
+    old = await _old_install(hass)
+    entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
+    entry.add_to_hass(hass)
+    entry.mock_state(hass, ConfigEntryState.FAILED_UNLOAD)
+
+    assert not await async_migrate_old_domain(hass, old, entry)
+
+    assert entry.options == {}
+    assert hass.config_entries.async_get_entry(old.entry_id) is old
+    assert er.async_get(hass).async_get(OLD_ENTITY_ID).platform == OLD_DOMAIN
