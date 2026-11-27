@@ -34,6 +34,16 @@ from .const import DOMAIN, OLD_DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
+# Toestanden van de nieuwe entry waarin de overstap veilig kan: geladen (dan
+# wordt eerst ontladen) of zonder draaiende entiteiten.
+_SAFE_STATES = {
+    ConfigEntryState.LOADED,
+    ConfigEntryState.NOT_LOADED,
+    ConfigEntryState.SETUP_ERROR,
+    ConfigEntryState.SETUP_RETRY,
+    ConfigEntryState.MIGRATION_ERROR,
+}
+
 # Eén vaste melding: er is hooguit één entry van het oude domein.
 ISSUE_ID = "migrate_old_domain"
 
@@ -92,10 +102,17 @@ async def async_migrate_old_domain(
     niet meer geladen. De nieuwe entry wordt hiervoor even ontladen, zodat er
     geen draaiende entiteiten in de weg zitten, en daarna weer opgezet.
 
-    Geeft False terug als dat ontladen mislukt; er is dan niets gewijzigd, zodat
-    de gebruiker het veilig opnieuw kan proberen.
+    Geeft False terug als dat ontladen mislukt, of eerder al mislukte
+    (FAILED_UNLOAD); er is dan niets gewijzigd, zodat de gebruiker het na een
+    herstart veilig opnieuw kan proberen.
     """
     _LOGGER.info("Instellingen en entiteiten overnemen van %s", OLD_DOMAIN)
+
+    if entry.state not in _SAFE_STATES:
+        # Bijvoorbeeld FAILED_UNLOAD na een eerdere mislukte poging: er kunnen
+        # nog entiteiten draaien, dus pas na een herstart verder.
+        _LOGGER.warning("Overstap van %s afgebroken: %s", OLD_DOMAIN, entry.state)
+        return False
 
     was_loaded = entry.state is ConfigEntryState.LOADED
     if was_loaded and not await hass.config_entries.async_unload(entry.entry_id):

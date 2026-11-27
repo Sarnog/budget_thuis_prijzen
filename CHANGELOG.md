@@ -3,7 +3,7 @@
 ## 0.6.1
 
 ### Verbeterd
-- Kan *Budget Thuis Prijzen* voor de overstap van `budgetthuis` niet even gestopt worden, dan breekt de overstap nu af voordat er iets verandert. Je krijgt een melding en kunt het na een herstart opnieuw proberen.
+- Kan *Budget Thuis Prijzen* voor de overstap van `budgetthuis` niet even gestopt worden, dan breekt de overstap nu af voordat er iets verandert. Je krijgt een melding en kunt het na een herstart opnieuw proberen. Ook een nieuwe poging vóór die herstart verandert niets.
 
 ## 0.6.0
 
