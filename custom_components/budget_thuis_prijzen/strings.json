@@ -76,7 +76,8 @@
         },
         "abort": {
           "old_integration_running": "The old integration is still running. Remove the folder custom_components/{old_domain}, restart Home Assistant and try again. Nothing was changed.",
-          "nothing_to_migrate": "There is nothing to take over anymore."
+          "nothing_to_migrate": "There is nothing to take over anymore.",
+          "unload_failed": "Budget Thuis Prijzen could not be stopped for the takeover. Nothing was changed. Restart Home Assistant and try again."
         }
       }
     }

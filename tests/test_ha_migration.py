@@ -6,6 +6,8 @@ bevestiging in de fix flow wordt de oude entry overgenomen.
 
 from __future__ import annotations
 
+from unittest.mock import AsyncMock, patch
+
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
@@ -281,3 +283,23 @@ async def test_migrate_with_unloaded_new_entry(
     device = dr.async_get(hass).async_get_device(identifiers={(DOMAIN, entry.entry_id)})
     assert device.area_id == "meterkast"
     assert hass.config_entries.async_get_entry(old.entry_id) is None
+
+
+async def test_aborts_when_unload_fails(
+    hass, enable_custom_integrations, aioclient_mock, freezer
+) -> None:
+    """Lukt het ontladen niet, dan verandert er niets en kan het opnieuw."""
+    old = await _old_install(hass)
+    entry = await _setup_new(hass, aioclient_mock, freezer)
+
+    with patch.object(
+        hass.config_entries, "async_unload", AsyncMock(return_value=False)
+    ):
+        result = await _confirm(hass)
+
+    assert result["type"] == "abort"
+    assert result["reason"] == "unload_failed"
+    assert entry.options == {}
+    assert hass.config_entries.async_get_entry(old.entry_id) is old
+    assert er.async_get(hass).async_get(OLD_ENTITY_ID).platform == OLD_DOMAIN
+    assert ir.async_get(hass).async_get_issue(DOMAIN, ISSUE_ID) is not None

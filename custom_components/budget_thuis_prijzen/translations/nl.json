@@ -76,7 +76,8 @@
         },
         "abort": {
           "old_integration_running": "De oude integratie draait nog. Verwijder de map custom_components/{old_domain}, herstart Home Assistant en probeer het opnieuw. Er is niets gewijzigd.",
-          "nothing_to_migrate": "Er valt niets meer over te nemen."
+          "nothing_to_migrate": "Er valt niets meer over te nemen.",
+          "unload_failed": "Budget Thuis Prijzen kon voor de overstap niet worden gestopt. Er is niets gewijzigd. Herstart Home Assistant en probeer het opnieuw."
         }
       }
     }

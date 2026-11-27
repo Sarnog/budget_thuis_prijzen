@@ -85,18 +85,23 @@ def _device_name(device: dr.DeviceEntry | None) -> str:
 
 async def async_migrate_old_domain(
     hass: HomeAssistant, old: ConfigEntry, entry: ConfigEntry
-) -> None:
+) -> bool:
     """Neem de entry old van het oude domein over in entry.
 
     Alleen aanroepen na bevestiging door de gebruiker, met de oude integratie
     niet meer geladen. De nieuwe entry wordt hiervoor even ontladen, zodat er
     geen draaiende entiteiten in de weg zitten, en daarna weer opgezet.
+
+    Geeft False terug als dat ontladen mislukt; er is dan niets gewijzigd, zodat
+    de gebruiker het veilig opnieuw kan proberen.
     """
     _LOGGER.info("Instellingen en entiteiten overnemen van %s", OLD_DOMAIN)
 
     was_loaded = entry.state is ConfigEntryState.LOADED
-    if was_loaded:
-        await hass.config_entries.async_unload(entry.entry_id)
+    if was_loaded and not await hass.config_entries.async_unload(entry.entry_id):
+        # Er kunnen nog entiteiten draaien; dan niets aan de registers veranderen.
+        _LOGGER.warning("Ontladen mislukt, overstap van %s afgebroken", OLD_DOMAIN)
+        return False
 
     # Alleen overnemen als de nieuwe entry nog geen eigen instellingen heeft.
     if not entry.options:
@@ -111,6 +116,7 @@ async def async_migrate_old_domain(
 
     if was_loaded:
         await hass.config_entries.async_setup(entry.entry_id)
+    return True
 
 
 def _async_move_entities(hass: HomeAssistant, old_id: str, new_id: str) -> None:
