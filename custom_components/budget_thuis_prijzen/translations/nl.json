@@ -63,5 +63,22 @@
         "name": "Goedkoop uur"
       }
     }
+  },
+  "issues": {
+    "migrate_old_domain": {
+      "title": "Oude {old_domain}-installatie overnemen?",
+      "fix_flow": {
+        "step": {
+          "confirm": {
+            "title": "Oude {old_domain}-installatie overnemen",
+            "description": "Home Assistant heeft nog een entry van het integratiedomein `{old_domain}`. Tot en met versie 0.4.0 was dat het domein van deze integratie, maar het is ook het domein van het oorspronkelijke project (lvaoliveira/ha-budgetthuis-prices). Ga dus alleen verder als deze entry door Budget Thuis Prijzen is aangemaakt.\n\nDit wordt overgenomen:\n- Entry: **{entry_title}**\n- Apparaat: **{device_name}** (met ruimte, labels en naam)\n- Entiteiten: **{entity_count}** (entity-ID's, namen en geschiedenis blijven behouden)\n- De contractinstellingen, als Budget Thuis Prijzen nog geen eigen instellingen heeft\n\nDaarna wordt de oude entry verwijderd. Verwijder eerst de map `custom_components/{old_domain}` en herstart Home Assistant. Is deze entry niet van jou, negeer deze reparatie dan; er verandert niets."
+          }
+        },
+        "abort": {
+          "old_integration_running": "De oude integratie draait nog. Verwijder de map custom_components/{old_domain}, herstart Home Assistant en probeer het opnieuw. Er is niets gewijzigd.",
+          "nothing_to_migrate": "Er valt niets meer over te nemen."
+        }
+      }
+    }
   }
 }
